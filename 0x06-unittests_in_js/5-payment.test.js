@@ -1,23 +1,31 @@
-const {describe, it} = require("mocha");
-const sinon = require("sinon");
-const sendPaymentRequestToApi = require("./5-payment");
-const expect = require("chai").expect;
+const chai = require('chai');
+const expect = chai.expect;
 
-describe("sendPaymentRequestToApi", function() {
-    beforeEach("Set up spy to use for each test", function() {
-	sinon.spy(console, "log");
-    });
-    afterEach("restore spy after each test", function() {
-	console.log.restore();
-    });
-    it("check that console.log is called with the right arg", function() {
-	sendPaymentRequestToApi(100, 20);
+const sinon = require('sinon');
+const sendPaymentRequestToApi = require('./5-payment');
 
-	expect(console.log.withArgs("The total is: 120").calledOnce).to.be.true;
-    });
-    it("check that console.log is called with the right arg", function() {
-	sendPaymentRequestToApi(10, 10);
+describe('sendPaymentRequestToApi', () => {
+  let consolespy;
 
-	expect(console.log.withArgs("The total is: 20").calledOnce).to.be.true;
-    });
+  beforeEach(() => {
+    consolespy = sinon.spy(console, 'log');
+  });
+  afterEach(() => {
+    consolespy.restore();
+  });
+
+  it('test the send Pyament Request with 100, 20', () => {
+    sendPaymentRequestToApi(100, 20);
+
+    expect(consolespy.calledWithExactly('The total is: 120')).to.be.true;
+    expect(consolespy.CalledOnce);
+  });
+
+  it('test the send Pyament Request with 10, 10', () => {
+    sendPaymentRequestToApi(10, 10);
+
+    expect(consolespy.calledOnceWithExactly('The total is: 20')).to.be.true;
+    expect(consolespy.CalledOnce);
+  });
+
 });
